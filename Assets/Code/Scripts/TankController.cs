@@ -6,6 +6,7 @@ public class TankController : MonoBehaviour
 {
     public GameObject bullet;
     public GameObject turret;
+    public ParticleSystem debris;
     public GameObject bulletSpawnPoint;
 
     public float curSpeed, targetSpeed;
@@ -16,6 +17,7 @@ public class TankController : MonoBehaviour
     public float shootRate = 0.5f;
 
     private float elapsedTime;
+    private ParticleSystem.EmissionModule debrisEmission;
 
     void OnEndGame() {
         // Don't allow any more control changes when the game ends
@@ -25,7 +27,7 @@ public class TankController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        debrisEmission = debris.emission;
     }
 
     // Update is called once per frame
@@ -66,6 +68,8 @@ public class TankController : MonoBehaviour
             transform.Rotate(0f, -rotSpeed * Time.deltaTime, 0f);
         else if (Input.GetKey(KeyCode.D))
             transform.Rotate(0f, rotSpeed * Time.deltaTime, 0f);
+
+        debrisEmission.enabled = (targetSpeed != 0);
 
         //Determine current speed
         curSpeed = Mathf.Lerp(curSpeed, targetSpeed, 7.0f * Time.deltaTime);
