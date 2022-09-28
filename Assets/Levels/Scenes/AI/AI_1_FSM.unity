@@ -320,6 +320,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &958912449 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6147731165908858676, guid: 8ed347b4b597ab14db52af191bcf71b5, type: 3}
+  m_PrefabInstance: {fileID: 1441818737}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1037605176
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,6 +597,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1441818740, guid: 8ed347b4b597ab14db52af191bcf71b5, type: 3}
+      propertyPath: turret
+      value: 
+      objectReference: {fileID: 958912449}
+    - target: {fileID: 1441818740, guid: 8ed347b4b597ab14db52af191bcf71b5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1441818740, guid: 8ed347b4b597ab14db52af191bcf71b5, type: 3}
       propertyPath: maxForwardSpeed
       value: 8
