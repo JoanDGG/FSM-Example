@@ -17,10 +17,12 @@ public class FSM : MonoBehaviour
     public GameObject bullet;
     public Transform playerTransform;
     public GameObject bulletSpawnPoint;
+    public GameObject turret;
     public List<GameObject> pointList;
     public float curSpeed;
     public float rotSpeed = 150.0f;
     public float turretRotSpeed = 10.0f;
+    private Quaternion targetRotation;
     public float maxForwardSpeed = 30.0f;
     public float maxBackwardSpeed = -30.0f;
     public float shootRate = 0.5f;
@@ -85,21 +87,38 @@ public class FSM : MonoBehaviour
         }
 
         //Rotate to the target point
-        Quaternion targetRotation = Quaternion.LookRotation(destPos - transform.position);
+        targetRotation = Quaternion.LookRotation(destPos - transform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotSpeed);
 
         //Go Forward
         transform.Translate(Vector3.forward * Time.deltaTime * curSpeed);
+
+        //Turret rotation
+        turret.transform.rotation = Quaternion.Slerp(turret.transform.rotation, targetRotation, Time.deltaTime * turretRotSpeed);
     }
 
     void UpdateChase()
     {
-
+        if (Vector3.Distance(transform.position, playerTransform.position) <= chaseRadius)
+        {
+            targetRotation = Quaternion.LookRotation(playerTransform.position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotSpeed);
+            transform.Translate(Vector3.forward * Time.deltaTime * curSpeed);
+            if (Vector3.Distance(transform.position, playerTransform.position) <= AttackRadius)
+            {
+                print("Switch to Aim state");
+                currentState = FSMStates.Aim;
+            }
+        }  
+        
     }
 
     void UpdateAim()
     {
-
+        //Turret rotation
+        turret.transform.rotation = Quaternion.Slerp(turret.transform.rotation, targetRotation, Time.deltaTime * turretRotSpeed * 2.0f);
+        print("Switch to Shoot state");
+        currentState = FSMStates.Shoot;
     }
 
     void UpdateShoot()
