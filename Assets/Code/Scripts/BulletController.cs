@@ -22,10 +22,4 @@ public class BulletController : MonoBehaviour
     {
         transform.position += transform.forward * speed * Time.deltaTime;      
     }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        ContactPoint contact = collision.contacts[0];
-        Destroy(gameObject);
-    }
 }
