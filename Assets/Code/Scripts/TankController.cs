@@ -1,26 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TankController : MonoBehaviour
 {
+    [Header("References")]
     public GameObject bullet;
     public GameObject turret;
-    public ParticleSystem debris;
     public GameObject bulletSpawnPoint;
+    public ParticleSystem debris;
+    public ParticleSystem smoke;
+    public Text InfoText;
 
-    public float curSpeed, targetSpeed;
+    [Header("Attributes")]
+    public int maxHP = 10;
     public float rotSpeed = 150.0f;
     public float turretRotSpeed = 10.0f;
     public float maxForwardSpeed = 30.0f;
     public float maxBackwardSpeed = -30.0f;
     public float shootRate = 0.5f;
 
-    private float elapsedTime;
+    private float HP, elapsedTime, curSpeed, targetSpeed;
     private ParticleSystem.EmissionModule debrisEmission;
+    private ParticleSystem.EmissionModule smokeEmission;
 
     void OnEndGame() {
         // Don't allow any more control changes when the game ends
+        smokeEmission.enabled = true;
         this.enabled = false;
     }
 
@@ -28,6 +36,9 @@ public class TankController : MonoBehaviour
     void Start()
     {
         debrisEmission = debris.emission;
+        smokeEmission = smoke.emission;
+        smokeEmission.enabled = false;
+        HP = maxHP;
     }
 
     // Update is called once per frame
@@ -35,6 +46,8 @@ public class TankController : MonoBehaviour
     {
         UpdateControl();
         UpdateWeapon();
+        if (Input.GetKeyDown(KeyCode.R)) { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
+        InfoText.text = "Press R to restart\n" + HP + " / " + maxHP;
     }
 
     void UpdateControl() 
@@ -86,7 +99,30 @@ public class TankController : MonoBehaviour
                 //Reset the time
                 elapsedTime = 0.0f;
 
-                Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
+                GameObject bulletObject = Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
+                bulletObject.GetComponent<BulletController>().parent = this.gameObject;
+            }
+        }
+    }
+
+    public void TakeDamage()
+    {
+        HP--;
+        if(HP <= 0)
+        {
+            print("Game Over");
+            OnEndGame();
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.GetComponent<BulletController>())
+        {
+            if(collision.gameObject.GetComponent<BulletController>().parent != this.gameObject)
+            {
+                Destroy(collision.gameObject);
+                TakeDamage();
             }
         }
     }

@@ -4968,26 +4968,29 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2271679292463979608}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 862948ce04e3f8044b19b5e1a63eb1b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
   bullet: {fileID: 5512321803092707746, guid: 07f2c6ed9fd64114ea5495ec5e93efaa, type: 3}
+  debris: {fileID: 821170350}
   playerTransform: {fileID: 0}
   bulletSpawnPoint: {fileID: 2271679292778548283}
+  turret: {fileID: 6147731165908858676}
   pointList:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  curSpeed: 2
+  tankSpeed: 2
   rotSpeed: 3
   turretRotSpeed: 5
-  maxForwardSpeed: 10
-  maxBackwardSpeed: -10
-  shootRate: 0.5
+  maxForwardSpeed: 8
+  maxBackwardSpeed: -8
+  shootRate: 1.25
+  evadeTime: 2.5
   patrolRadius: 1
   chaseRadius: 10
   AttackRadius: 7
@@ -5014,14 +5017,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2271679292778548283}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.043619405, y: 0, z: 0, w: 0.9990483}
   m_LocalPosition: {x: 0, y: 0, z: 0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4008742702336861466}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 5, y: 0, z: 0}
 --- !u!1 &6099190239338948643
 GameObject:
   m_ObjectHideFlags: 0

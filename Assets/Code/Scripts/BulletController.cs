@@ -10,6 +10,8 @@ public class BulletController : MonoBehaviour
     private float lifeTime = 3.0f;
    
     public int damage = 50;
+    [System.NonSerialized]
+    public GameObject parent;
     
     // Start is called before the first frame update
     void Start()

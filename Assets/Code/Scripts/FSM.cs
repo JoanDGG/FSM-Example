@@ -151,7 +151,7 @@ public class FSM : MonoBehaviour
         {
             //Reset the time
             elapsedTime = 0.0f;
-            Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
+            Shoot();
         }
 
         if (Vector3.Distance(transform.position, playerTransform.position) > AttackRadius)
@@ -174,7 +174,7 @@ public class FSM : MonoBehaviour
         {
             //Reset the time
             elapsedTime = 0.0f;
-            Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
+            Shoot();
         }
 
         // Move away from player
@@ -192,13 +192,22 @@ public class FSM : MonoBehaviour
         }
     }
 
+    private void Shoot()
+    {
+        GameObject bulletObject = Instantiate(bullet, bulletSpawnPoint.transform.position, bulletSpawnPoint.transform.rotation);
+        bulletObject.GetComponent<BulletController>().parent = this.gameObject;
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.GetComponent<BulletController>())
         {
-            Destroy(collision.gameObject);
-            print("Switch to Evade state");
-            currentState = FSMStates.Evade;
+            if(collision.gameObject.GetComponent<BulletController>().parent != this.gameObject)
+            {
+                Destroy(collision.gameObject);
+                print("Switch to Evade state");
+                currentState = FSMStates.Evade;
+            }
         }
     }
 }
