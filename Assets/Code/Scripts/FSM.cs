@@ -16,7 +16,7 @@ public class FSM : MonoBehaviour
 
     public GameObject bullet;
     public ParticleSystem debris;
-    public Transform playerTransform;
+    private Transform playerTransform;
     public GameObject bulletSpawnPoint;
     public GameObject turret;
     public List<GameObject> pointList;
@@ -37,11 +37,14 @@ public class FSM : MonoBehaviour
     private float curSpeed;
     private ParticleSystem.EmissionModule debrisEmission;
 
+    public GameObject Status;
+
     // Start is called before the first frame update
     void Start()
     {
         debrisEmission = debris.emission;
         FindNextPoint();
+        playerTransform = GameObject.FindWithTag("Tank").transform;
     }
 
     private void FindNextPoint() 
@@ -104,6 +107,8 @@ public class FSM : MonoBehaviour
 
         //Turret rotation
         turret.transform.rotation = Quaternion.Slerp(turret.transform.rotation, targetRotation, Time.deltaTime * turretRotSpeed);
+
+        Status.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.green);
     }
 
     void UpdateChase()
@@ -126,6 +131,7 @@ public class FSM : MonoBehaviour
             }
         }  
         
+        Status.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.blue);
     }
 
     void UpdateAim()
@@ -136,6 +142,8 @@ public class FSM : MonoBehaviour
         turret.transform.rotation = Quaternion.Slerp(turret.transform.rotation, targetRotation, Time.deltaTime * turretRotSpeed * 2.0f);
         print("Switch to Shoot state");
         currentState = FSMStates.Shoot;
+        Status.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.yellow);
+
     }
 
     void UpdateShoot()
@@ -159,6 +167,8 @@ public class FSM : MonoBehaviour
             print("Switch to Chase state");
             currentState = FSMStates.Chase;
         }
+
+        Status.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.red);
     }
 
     void UpdateEvade()
@@ -190,6 +200,8 @@ public class FSM : MonoBehaviour
             print("Switch to Chase state");
             currentState = FSMStates.Chase;
         }
+
+        Status.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.white);
     }
 
     private void Shoot()
